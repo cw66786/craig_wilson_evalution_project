@@ -7,7 +7,7 @@ const people =[];
 
 async function getPerson() {
   let obj;
-
+  
   for(let i = 0;i<20;i++){
     const res = await fetch(baseUrl)
 
@@ -15,15 +15,17 @@ async function getPerson() {
 
 
   
-    people.push({id: (i),name: ( obj[0].name.first+" "+obj[0].name.last),phone: obj[0].phone,email: obj[0].email,dob: obj[0].dob.date,img: obj[0].picture.thumbnail});
-
+  let x = {id: (i),name: (obj[0].name.first+" "+obj[0].name.last),phone: obj[0].phone,email: obj[0].email,dob: obj[0].dob.date,img: obj[0].picture.thumbnail};
+   people.push(x)
   }
-};
-  getPerson();
   
+};
+getPerson();
+
+
  
 
-
+console.log(people)
 
 
 
@@ -78,6 +80,8 @@ const Model = ((api) => {
 
 return {}
 })(Api);
+
+
 
 
 const Controller = ((view,api)=>{
