@@ -11,18 +11,24 @@
 const Api = (() => {
   const baseUrl = "https://randomuser.me/api";
   
-let people;
-  const getPerson = () => {
-    
+let people = [];
 
-    fetch(baseUrl)
-        .then((response) => response.json())
-        .then(JsonData => {
-    
-         people =  JsonData
-    
-        }).catch(error => console.error)
-  };
+async function getPerson() {
+  let obj;
+
+  const res = await fetch(baseUrl)
+
+  obj = await res.json().then(data => data.results[0]);
+
+
+  for(let i = 0;i<20;i++){
+    people.push(await obj);
+  }
+ 
+
+};
+
+
 
   getPerson();
 
@@ -30,12 +36,13 @@ let people;
   return {getPerson,people};
 })();
 
-console.log(Api.people)
 
 const Model = ((api) => {
   
+  
 
-
+return {}
 })(Api);
 
+console.log(Api.people)
 
