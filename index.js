@@ -85,7 +85,7 @@ let left = document.querySelector(view.domstr.leftCon);
 let right = document.querySelector(view.domstr.rightCon);
 let people = api.people;
 
-console.log(people[0:])
+
   const bootstrap = ()=>{
     
     view.render(left,view.createTmp(people));
