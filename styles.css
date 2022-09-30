@@ -1,7 +1,7 @@
 *{
     padding: 0;
     margin: 0;
-    box-sizing: border-box;
+    
 }
 
 
@@ -16,34 +16,39 @@
 
 
 .card-outer-container{
-    height: 85vh;
+    height: 95vh;
     width: 50vw;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: black;
-    overflow: scroll;
+  
 
 }
+
+
 
 
 .left-card-container,
 .right-card-container{
-
+    
     width: 50%;
     height: 100%;
     display: flex;
     flex-direction: column;
+
+
    
 
 }
+
 
 .left-card-container{
     background-color: red;
 }
 
-.right-card-contatiner{
-    background-color: aliceblue;
+.right-card-container{
+    background-color: rgb(7, 132, 241);
 }
 .card{
     display: flex;
@@ -55,7 +60,7 @@
     margin: 0px 2.5% 1% 2.5%;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 960px) {
     .card-outer-container{
         width: 100vw;
         height: 100vh
@@ -63,6 +68,9 @@
 }
 
 @media (max-width: 620px) {
+
+    
+     
     .card-outer-container{
         flex-wrap: wrap;
     }
