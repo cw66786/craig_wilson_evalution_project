@@ -21,7 +21,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: black;
+   
   
 
 }
@@ -43,13 +43,7 @@
 }
 
 
-.left-card-container{
-    background-color: red;
-}
 
-.right-card-container{
-    background-color: rgb(7, 132, 241);
-}
 .card{
     display: flex;
     justify-content: flex-start;
@@ -58,6 +52,17 @@
     height: 15%;
     width: 95%;
     margin: 0px 2.5% 1% 2.5%;
+}
+
+.reload-btn{
+    position: absolute;
+    top: 98%;
+    left: 98%;
+    transform: translate(-98%,-98%);
+    height: 3rem;
+    width: 3rem;
+    border-radius: 50%;
+    z-index: 2;
 }
 
 @media (max-width: 960px) {

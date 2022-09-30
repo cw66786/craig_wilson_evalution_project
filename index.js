@@ -5,38 +5,37 @@
 //                     <div id="about">
 //                         <button id="dob-btn"></button>
 //                     </div>
-                   
+
 //             </div> */}
 
-
- const Api = (() => {
-	
-  const baseUrl = 'https://randomuser.me/api';
-  let person;
-
-	
-       
+const Api = (() => {
+  const baseUrl = "https://randomuser.me/api";
+  
+let people;
+  const getPerson = () => {
+    
 
     fetch(baseUrl)
-    .then(res => res.json())
-    .then(data => person = data.results[0]);
+        .then((response) => response.json())
+        .then(JsonData => {
+    
+         people =  JsonData
+    
+        }).catch(error => console.error)
+  };
 
-       
-          
-         
-          
-         
+  getPerson();
+
+
+  return {getPerson,people};
+})();
+
+console.log(Api.people)
+
+const Model = ((api) => {
   
-   
-
-	
- console.log(person)
-	
-	return {};
- })();
- 
 
 
- const Model = (()=>{
+})(Api);
 
- })(Api)
+
