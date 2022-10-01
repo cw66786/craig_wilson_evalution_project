@@ -1,38 +1,27 @@
 
 
+
 const Api = (() => {
   const baseUrl = "https://randomuser.me/api";
   
-const people =[];
-
-async function getPerson() {
-  let obj;
-  
-  for(let i = 0;i<20;i++){
-    const res = await fetch(baseUrl)
-
-  obj = await res.json().then(data => data.results);
 
 
-  
-  let x = {id: (i),name: (obj[0].name.first+" "+obj[0].name.last),phone: obj[0].phone,email: obj[0].email,dob: obj[0].dob.date,img: obj[0].picture.thumbnail};
-   people.push(x)
-  }
-  
-};
-getPerson();
+const getPeople = ()=> 
 
-
- 
-
-console.log(people)
-
-
+        
+          
+fetchJsonp(baseUrl)
+.then((r) => r.json());
 
   
 
 
-  return {getPerson,people};
+    
+  
+  
+
+
+  return {getPeople};
 })();
 
 
@@ -74,31 +63,84 @@ const View = (() => {
 	return { render, createTmp, domstr };
 })();
 
-const Model = ((api) => {
-  
+const Model = ((api,view) => {
+  const { getPeople } = api;
 
-
-return {}
-})(Api);
-
-
-
-
-const Controller = ((view,api)=>{
-let left = document.querySelector(view.domstr.leftCon);
-let right = document.querySelector(view.domstr.rightCon);
-let people = api.people;
-
-
-  const bootstrap = ()=>{
-    
-    view.render(left,view.createTmp(people));
-    
+  class Person {
+    constructor(picture, title, first, last, email, phone, dob) {
+        this.picture = picture
+        this.title = title
+        this.first = first
+        this.last = last
+        this.email = email
+        this.phone = phone
+        this.dob = dob
+    }
   };
 
+  class State {
+    #peopleList = [];
+
+    get PeopleList() {
+      return this.#peopleList;
+    }
+    set Peoplelist(newpeoplelist) {
+      this.#peopleList = newpeoplelist;
+
+      const left = document.querySelector(view.domstr.leftCon);
+      const right = document.querySelector(view.domstr.rightCon);
+      const tmp = view.createTmp(this.#peopleList);
+      view.render(left, tmp.slice(0,tmp.length/2));
+      view.render(right, tmp.slice(tmp.length/2,temp.length));
+    }
+  }
+
+  return { getPeople, State,Person};
+
+
+})(Api,View);
+
+
+
+
+const Controller = ((model)=>{
+
+
+
+ 
+    const state = new model.State();
+
+    const init = () => {
+
+      state.peopleList = [];
+
+      for (let i = 0; i < 20; i++) {
+          let newPeople = {}
+          model.getPeople().then((person) => {
+              newPeople = {
+                  'id': Math.floor(Math.random()*21),
+                  'picture': person.results[0].picture.large,
+                  'title': person.results[0].name.title,
+                  'first': person.results[0].name.first,
+                  'last': person.results[0].name.last,
+                  'email': person.results[0].email,
+                  'phone': person.results[0].phone,
+                  'dob': person.results[0].dob.date
+              }
+              state.peopleList = [...state.peopleList, newPeople];
+          });
+      }
+  };
+ 
+    
+  
+
+  const bootstrap = ()=>{
+    init();
+  };
 
   return {bootstrap}
-})(View,Api);
+})(Model);
 
 Controller.bootstrap();
 
