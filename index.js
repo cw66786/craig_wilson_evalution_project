@@ -6,10 +6,12 @@ const Api = (() => {
   
 
 
-const getPeople = ()=> {
- return fetch(baseUrl)
-  .then((r) => r.json())
-  .then(data => data = data.results);
+const getPeople = async ()=> {
+ const r = await fetch(baseUrl);
+  const data = await r.json()
+                      .then(data => data = data.results);
+                      
+  return data;
 
 }
 
