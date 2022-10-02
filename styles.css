@@ -16,7 +16,7 @@
 
 
 .card-outer-container{
-    height: 95vh;
+    height: 98vh;
     width: 50vw;
     display: flex;
     justify-content: center;
@@ -110,7 +110,15 @@
     width: 3rem;
 }
 
-@media (max-width: 960px) {
+
+@media (max-width: 1600px) {
+    .card-outer-container{
+        font-size: small;
+    }
+    
+}
+
+@media (max-width: 1300px) {
     
     .card-outer-container{
         width: 100vw;
