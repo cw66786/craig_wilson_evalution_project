@@ -145,13 +145,19 @@ const Controller = ((model,view)=>{
          
   };
  
-    
+    const reload = ()=>{
+      let reloadBtn = document.querySelector(view.domstr.reloadBtn);
+
+      reloadBtn.addEventListener("click",()=>{
+        init();
+      })
+    }
   
 
   const bootstrap = ()=>{
     
     
-
+    reload();
     init();
    
   };

@@ -65,6 +65,15 @@
     z-index: 2;
 }
 
+#dob-text{
+    display: hidden;
+
+}
+
+#dob-btn{
+    display: block;
+}
+
 /* @media (max-width: 960px) {
     .card-outer-container{
         width: 100vw;
