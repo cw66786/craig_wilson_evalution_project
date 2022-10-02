@@ -2,16 +2,19 @@
 
 
 const Api = (() => {
-  const baseUrl = "https://randomuser.me/api";
+  const baseUrl = "https://randomuser.me/api/?results=20";
   
 
 
-const getPeople = ()=> 
+const getPeople = ()=> {
+ return fetch(baseUrl)
+  .then((r) => r.json())
+  .then(data => data = data.results);
+
+}
 
         
           
-fetchJsonp(baseUrl)
-.then((r) => r.json());
 
   
 
@@ -42,7 +45,7 @@ const View = (() => {
 		arr.forEach((el) => {
      
 			tmp += `
-      <div id="${el.indexOf()}" class="card">
+      <div id="${el.id}" class="card">
           <div id="img-container" >
           <img id="personpic" src=${el.img} alt="profile pic">
           </div>
@@ -67,7 +70,8 @@ const Model = ((api,view) => {
   const { getPeople } = api;
 
   class Person {
-    constructor(picture, title, first, last, email, phone, dob) {
+    constructor(id,picture, title, first, last, email, phone, dob) {
+        this.id = id
         this.picture = picture
         this.title = title
         this.first = first
@@ -84,14 +88,14 @@ const Model = ((api,view) => {
     get PeopleList() {
       return this.#peopleList;
     }
-    set Peoplelist(newpeoplelist) {
+    set PeopleList(newpeoplelist) {
       this.#peopleList = newpeoplelist;
 
       const left = document.querySelector(view.domstr.leftCon);
       const right = document.querySelector(view.domstr.rightCon);
       const tmp = view.createTmp(this.#peopleList);
-      view.render(left, tmp.slice(0,tmp.length/2));
-      view.render(right, tmp.slice(tmp.length/2,temp.length));
+      view.render(left, tmp.slice(0,tmp));
+      view.render(right, tmp.slice(tmp.length/2,tmp.length));
     }
   }
 
@@ -103,7 +107,7 @@ const Model = ((api,view) => {
 
 
 
-const Controller = ((model)=>{
+const Controller = ((model,view)=>{
 
 
 
@@ -114,33 +118,42 @@ const Controller = ((model)=>{
 
       state.peopleList = [];
 
-      for (let i = 0; i < 20; i++) {
-          let newPeople = {}
-          model.getPeople().then((person) => {
-              newPeople = {
-                  'id': Math.floor(Math.random()*21),
-                  'picture': person.results[0].picture.large,
-                  'title': person.results[0].name.title,
-                  'first': person.results[0].name.first,
-                  'last': person.results[0].name.last,
-                  'email': person.results[0].email,
-                  'phone': person.results[0].phone,
-                  'dob': person.results[0].dob.date
-              }
-              state.peopleList = [...state.peopleList, newPeople];
-          });
-      }
+     
+        
+          model.getPeople().then((data) => {
+
+            data.forEach(el =>{
+              let newPerson = new model.Person(
+                    Math.floor(Math.random()*21),
+                    el.picture.thumbnail,
+                    el.name.title,
+                    el.name.first,
+                    el.name.last,
+                    el.email,
+                    el.phone,
+                    el.dob.date
+                    );
+              
+              state.peopleList = [...state.peopleList, newPerson];
+
+            })
+          })
+         
+      
   };
  
     
   
 
   const bootstrap = ()=>{
+    let left = document.querySelector(view.domstr.leftCon);
+
     init();
+   view.render(left,view.createTmp(state.PeopleList));
   };
 
   return {bootstrap}
-})(Model);
+})(Model,View);
 
 Controller.bootstrap();
 
