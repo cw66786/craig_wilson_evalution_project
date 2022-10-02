@@ -36,8 +36,7 @@ const View = (() => {
 		leftCon: "#left-card-container",
     rightCon: "#right-card-container",
     reloadBtn: "#reload-btn",
-    dobBtn: "#dob-btn",
-    dobText: "#dob-text",
+   
 	};
 	const render = (el, tmp) => {
 		el.innerHTML = tmp;
@@ -49,18 +48,17 @@ const View = (() => {
 			tmp += `
       <div id="${el.id}" class="card">
           <div id="img-container" >
-          <img id="person-pic" src=${el.img} alt="profile pic">
+          <img  class="person-pic" src=${el.img} alt="profile pic"/>
           </div>
-          <div id="about">
+          <div class="about">
               <span>Name: ${el.name}</span>
               <span>Email: ${el.email}</span>
               <span>Phone: ${el.phone}</span>
-              <span id="dob-text">dob: ${el.dob}</span>
-              <button id="dob-btn">D.O.B.</button>
+              <span id="${el.id}-text" class="dob-text" style="display:none">Dob: ${el.dob}</span>
+              <button id="${el.id}-btn" class="dob-btn" style="display:block">D.O.B.</button>
           </div>
 
-  </div>
-  `;
+  </div>`;
 		});
 		return tmp;
 	};
@@ -72,12 +70,10 @@ const Model = ((api,view) => {
   const { getPeople } = api;
 
   class Person {
-    constructor(id,picture, title, first, last, email, phone, dob) {
+    constructor(id,img, name, email, phone, dob) {
         this.id = id
-        this.picture = picture
-        this.title = title
-        this.first = first
-        this.last = last
+        this.img = img
+        this.name = name
         this.email = email
         this.phone = phone
         this.dob = dob
@@ -94,10 +90,11 @@ const Model = ((api,view) => {
       this.#peopleList = newpeoplelist;
 
       const left = document.querySelector(view.domstr.leftCon);
-      //const right = document.querySelector(view.domstr.rightCon);
-      const tmp = view.createTmp(this.#peopleList);
-      view.render(left, tmp);
-     // view.render(right, tmp.slice(tmp.length/2,tmp.length));
+      const right = document.querySelector(view.domstr.rightCon);
+      const tmpLeft = view.createTmp(this.#peopleList.slice(0,this.#peopleList.length/2));
+      const tmpRight = view.createTmp(this.#peopleList.slice(this.#peopleList.length/2,this.#peopleList.length));
+      view.render(left, tmpLeft);
+     view.render(right, tmpRight);
     }
   }
 
@@ -110,6 +107,18 @@ const Model = ((api,view) => {
 
 
 const Controller = ((model,view)=>{
+
+  const generateRandomId = () => {
+    const resouse =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
+    const length = 12;
+    let id = "";
+    for (let i = 0; i <= length; i++) {
+    const index = Math.floor(Math.random() * resouse.length);
+    id += resouse[index];
+    }
+    return id;
+    }
 
 
 
@@ -127,11 +136,9 @@ const Controller = ((model,view)=>{
             data.forEach(el =>{
         
               let newPerson = new model.Person(
-                    Math.floor(Math.random()*21),
-                    el.picture.thumbnail,
-                    el.name.title,
-                    el.name.first,
-                    el.name.last,
+                    generateRandomId(),
+                    el.picture.medium,
+                    (el.name.title+" "+el.name.first+" "+el.name.last),
                     el.email,
                     el.phone,
                     el.dob.date
@@ -149,26 +156,48 @@ const Controller = ((model,view)=>{
       let reloadBtn = document.querySelector(view.domstr.reloadBtn);
 
       reloadBtn.addEventListener("click",()=>{
-        init();
+        location.reload();
       })
     };
 
 
     const dobSwitcher = ()=>{
-      let btn = document.querySelector(view.domstr.dobBtn);
-      let text = document.querySelector(view.domstr.dobText);
+      
 
-      btn.addEventListener("click",()=>{
+
+      document.addEventListener("click",(event)=>{
+        
+        
        
-        btn.style.display = "none";
-        text.style.display = "block";
+
+        if(event.target.className === "dob-btn"){
+            
+          let btn = document.getElementById(event.target.id);
+
+          let textId = event.target.id.split("-");
+            textId = textId[0]+"-text";
+          
+          let text = document.getElementById(textId);
+          btn.style.display = "none";
+          text.style.display = "block";
+        }else  if(event.target.className === "dob-text"){
+            
+          let text = document.getElementById(event.target.id);
+
+          let btnId = event.target.id.split("-");
+            btnId = btnId[0]+"-btn";
+          
+          let btn = document.getElementById(btnId);
+          btn.style.display = "block";
+          text.style.display = "none";
+        }
+
+       
+        
       })
     
     
-    text.addEventListener("click",()=>{
-      text.style.display = "none";
-      btn.style.display = "block";
-    })
+    
 
 
   };
