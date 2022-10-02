@@ -11,7 +11,7 @@ const getPeople = async ()=> {
   const data = await r.json()
                       .then(data => data = data.results);
                       
-  return data;
+  return  data;
 
 }
 
@@ -111,18 +111,18 @@ const Model = ((api,view) => {
 
 const Controller = ((model,view)=>{
 
-  let left = document.querySelector(view.domstr.leftCon);
+
 
  
     const state = new model.State();
 
-    const init = () => {
+    const init = async () => {
 
       state.peopleList = [];
 
      
         
-          model.getPeople().then((data) => {
+          let data = await model.getPeople();
            
             data.forEach(el =>{
         
@@ -140,7 +140,7 @@ const Controller = ((model,view)=>{
               state.peopleList = [...state.peopleList, newPerson];
            
             })
-          })
+          
          
          
   };
