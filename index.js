@@ -38,22 +38,22 @@ const View = (() => {
     dobBtn: "#dob-btn"
 	};
 	const render = (el, tmp) => {
-		el.innerHTML += tmp;
+		el.innerHTML = tmp;
 	};
 	const createTmp = (arr) => {
 		let tmp = "";
 		arr.forEach((el) => {
-     
+     console.log(el.name)
 			tmp += `
       <div id="${el.id}" class="card">
           <div id="img-container" >
-          <img id="personpic" src=${el.img} alt="profile pic">
+          <img id="person-pic" src=${el.img} alt="profile pic">
           </div>
           <div id="about">
               <span>Name: ${el.name}</span>
               <span>Email: ${el.email}</span>
               <span>Phone: ${el.phone}</span>
-              <span>dob: ${el.dob}</span>
+              <span id="dob-text">dob: ${el.dob}</span>
               <button id="dob-btn">D.O.B.</button>
           </div>
 
@@ -94,8 +94,8 @@ const Model = ((api,view) => {
       const left = document.querySelector(view.domstr.leftCon);
       const right = document.querySelector(view.domstr.rightCon);
       const tmp = view.createTmp(this.#peopleList);
-      view.render(left, tmp.slice(0,tmp));
-      view.render(right, tmp.slice(tmp.length/2,tmp.length));
+      view.render(left, tmp);
+     // view.render(right, tmp.slice(tmp.length/2,tmp.length));
     }
   }
 
@@ -109,7 +109,7 @@ const Model = ((api,view) => {
 
 const Controller = ((model,view)=>{
 
-
+  let left = document.querySelector(view.domstr.leftCon);
 
  
     const state = new model.State();
@@ -121,8 +121,9 @@ const Controller = ((model,view)=>{
      
         
           model.getPeople().then((data) => {
-
+           
             data.forEach(el =>{
+        
               let newPerson = new model.Person(
                     Math.floor(Math.random()*21),
                     el.picture.thumbnail,
@@ -135,21 +136,22 @@ const Controller = ((model,view)=>{
                     );
               
               state.peopleList = [...state.peopleList, newPerson];
-
+           
             })
           })
          
-      
+         
   };
  
     
   
 
   const bootstrap = ()=>{
-    let left = document.querySelector(view.domstr.leftCon);
+    
+    
 
     init();
-   view.render(left,view.createTmp(state.PeopleList));
+   
   };
 
   return {bootstrap}
