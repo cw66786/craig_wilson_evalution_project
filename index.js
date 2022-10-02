@@ -45,7 +45,7 @@ const View = (() => {
 	const createTmp = (arr) => {
 		let tmp = "";
 		arr.forEach((el) => {
-     console.log(el.name)
+    
 			tmp += `
       <div id="${el.id}" class="card">
           <div id="img-container" >
