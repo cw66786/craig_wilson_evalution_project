@@ -8,8 +8,7 @@ const Api = (() => {
 
 const getPeople = async ()=> {
  const r = await fetch(baseUrl);
-  const data = await r.json()
-                      .then(data => data = data.results);
+  const data = await r.json().then(data => data = data.results);
                       
   return  data;
 
@@ -138,7 +137,7 @@ const Controller = ((model,view)=>{
                     el.dob.date
                     );
               
-              state.peopleList = [...state.peopleList, newPerson];
+              state.PeopleList = [...state.PeopleList, newPerson];
            
             })
           
