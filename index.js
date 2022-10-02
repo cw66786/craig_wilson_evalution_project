@@ -160,12 +160,13 @@ const Controller = ((model,view)=>{
       let text = document.querySelector(view.domstr.dobText);
 
       btn.addEventListener("click",()=>{
+       
         btn.style.display = "none";
         text.style.display = "block";
       })
     
     
-    btn.addEventListener("click",()=>{
+    text.addEventListener("click",()=>{
       text.style.display = "none";
       btn.style.display = "block";
     })
@@ -176,9 +177,10 @@ const Controller = ((model,view)=>{
 
   const bootstrap = ()=>{
     
+    init();
     
     reload();
-    init();
+    dobSwitcher();
    
   };
 

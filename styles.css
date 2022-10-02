@@ -67,7 +67,7 @@
 
 #dob-text{
     display: none;
-
+    cursor: pointer;
 }
 
 #dob-btn{
