@@ -95,7 +95,7 @@ const Model = ((api,view) => {
       this.#peopleList = newpeoplelist;
 
       const left = document.querySelector(view.domstr.leftCon);
-      const right = document.querySelector(view.domstr.rightCon);
+      //const right = document.querySelector(view.domstr.rightCon);
       const tmp = view.createTmp(this.#peopleList);
       view.render(left, tmp);
      // view.render(right, tmp.slice(tmp.length/2,tmp.length));
