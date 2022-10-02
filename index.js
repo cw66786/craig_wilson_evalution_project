@@ -37,7 +37,8 @@ const View = (() => {
 		leftCon: "#left-card-container",
     rightCon: "#right-card-container",
     reloadBtn: "#reload-btn",
-    dobBtn: "#dob-btn"
+    dobBtn: "#dob-btn",
+    dobText: "#dob-text",
 	};
 	const render = (el, tmp) => {
 		el.innerHTML = tmp;
@@ -151,8 +152,27 @@ const Controller = ((model,view)=>{
       reloadBtn.addEventListener("click",()=>{
         init();
       })
-    }
-  
+    };
+
+
+    const dobSwitcher = ()=>{
+      let btn = document.querySelector(view.domstr.dobBtn);
+      let text = document.querySelector(view.domstr.dobText);
+
+      btn.addEventListener("click",()=>{
+        btn.style.display = "none";
+        text.style.display = "block";
+      })
+    
+    
+    btn.addEventListener("click",()=>{
+      text.style.display = "none";
+      btn.style.display = "block";
+    })
+
+
+  };
+
 
   const bootstrap = ()=>{
     
